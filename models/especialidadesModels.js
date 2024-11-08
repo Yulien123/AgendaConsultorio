@@ -73,7 +73,22 @@ class Especialidad {
             if (conn) conn.end();
         }
     }
-
+    static async createNewEspecialidad(especialidad) {
+        let conn;
+        try {
+            conn = await createConnection();
+            const [result] = await conn.query(`
+                INSERT INTO especialidades (nombre)
+                VALUES (?)
+            `, [especialidad]);
+            return result;
+        } catch (error) {
+            console.error('Error creating especialidad:', error);
+            throw new Error('Error al crear especialidad');
+        } finally {
+            if (conn) conn.end();
+        }   
+    }
 
 
 }
