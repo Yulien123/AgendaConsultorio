@@ -84,7 +84,7 @@ class Usuario extends Persona {
         try {
             const conn = await createConnection();
             console.log('Conexión a la base de datos establecida');
-            await conn.query('INSERT INTO telefonos (id_usuario, numero) VALUES (?, ?)', [idUsuario, telefono]);
+            await conn.query('INSERT INTO telefonos (id_usuario, numero) VALUES (?, ?)', [id, telefono]);
             console.log('Teléfono alternativo guardado en la base de datos');
         } catch (error) {
             console.error('Error al guardar el teléfono alternativo:', error);

@@ -30,15 +30,15 @@ block contenido
       fieldDni.style.display = 'none'; // Ocultar el campo
       fieldId.style.display = 'none'; // Ocultar el campo
     }
-  h1.center-text Gestionar Médico
-  form(action=`/medicos/update/${persona.dni}` method="POST" id="editar-form" class="needs-validation" novalidate)
+  h1.center-text Gestionar Paciente 
+  form(action=`/pacientes/update/${paciente.dni}` method="POST" id="editar-form" class="needs-validation" novalidate)
     div(class="mb-3" id='dni-container')
       label(for="dni" class="form-label") 
-      input(type="number" name="dni" id='dni' class="form-control" value=persona.dni readonly)
+      input(type="number" name="dni" id='dni' class="form-control" value=paciente.dni readonly)
    
     div(class="mb-3")
       label(for="id" class="form-label") 
-      input(type="number" name="id" id='id' class="form-control" value=usuario.id readonly)
+      input(type="number" name="id" id='id' class="form-control" value=paciente.id readonly)
    
     div(class="mb-3")
       label(for="nombre" class="form-label") Nombre:
@@ -61,42 +61,38 @@ block contenido
       input(type="password" name="password" class="form-control" value=usuario.password required)
       div(class="invalid-feedback") Password es obligatorio.
     div(class="mb-3")
+      label(for="obra_social" class="form-label") Obra social de Paciente #{persona.nombre}
+      select(name="obra_social" class="form-select half-width" required)
+        each os in obra_social || []
+          option(value=os.id)= os.nombre
+    div(class="mb-3")
+      label(for="obras_sociales" class="form-label") Cambiar Obra social:
+      select(name="obras_sociales" class="form-select half-width")
+        each obra in allObrasSociales || []
+          option(value="") Seleccione
+          option(value=obra.id)= obra.nombre
+    div(class="mb-3")
       label(for="telefonos" class="form-label") Teléfonos:
       select(name="telefonos" class="form-select" required)
         each telefono in telefonos.numeros.split(', ') || []
           option(value=telefono)= telefono
     div(class="mb-3")
       label(for="telefonoAlternativo" class="form-label") Teléfono Alternativo (opcional):
-      input(type="text" name="telefonoAlternativo" class="form-control" value='')
+      input(type="text" name="telefonoAlternativo" class="form-control" value=telefonoAlternativo)
 
     button(type="submit" class="btn btn-success center-buttons") Guardar Cambios
   h3.center-text Estado
   br
-  p.center-text Profesional: #{persona.nombre}
-  p.center-text(class= medico.estado == 1 ? 'status-active' : 'status-inactive') Estado: #{medico.estado == 1 ? 'Activo' : 'Inactivo'}
+  p.center-text Paciente: #{persona.nombre}
+  p.center-text(class= paciente.estado == 1 ? 'status-active' : 'status-inactive') Estado: #{paciente.estado == 1 ? 'Activo' : 'Inactivo'}
   div.center-buttons
-    if medico.estado == 1
-      form(action=`/medicos/inactivar/${persona.dni}`, method='post' id="inactivar-form")
+    if paciente.estado == 1
+      form(action=`/pacientes/inactivar/${persona.dni}`, method='post' id="inactivar-form")
         button(type='submit' class="btn btn-danger") Inactivar
     else
-      form(action=`/medicos/activar/${persona.dni}`, method='post' id="activar-form")
+      form(action=`/pacientes/activar/${persona.dni}`, method='post' id="activar-form")
         button(type='submit' class="btn btn-success") Activar
   br
-  h3.center-text Gestion de Especialidades 
-    div(class="mb-3")
-      label(for="especialidades" class="form-label") Dr. #{persona.nombre}
-      select(name="especialidades" class="form-select half-width" required)
-        each especialidad in especialidades || []
-          option(value=especialidad)= especialidad
-
-    div(class="mb-3")
-      label(for="matricula" class="form-label") Número de Matrícula:
-      select(name="matriculas" class="form-select small-width" required)
-        each matricula, index in matriculas || []
-          option(value=matricula)= `${matricula} (${especialidades[index]})`
-
-  div.center-buttons
-    a(href="/medicos/especialidad" class="btn btn-primary mt-3") Gestionar Especialidades
   script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous")
   script(src="/js/medicos.js")
   script.
