@@ -195,12 +195,13 @@ class MedicosController {
     async update(req, res, next) {
         console.log('Controller: Update Medico');
         try {
-            const { id, dni } = req.params;
-            const { nombre, apellido, nacimiento: fechaNacimiento, email, password, telefonosAlternativo } = req.body;
+            const { dni } = req.params;
+            const { nombre, apellido, nacimiento: fechaNacimiento, email, password, telefonoAlternativo } = req.body;
             const nombreUpdate = nombre;
             // Validar datos
             const dateNacimiento = new Date(fechaNacimiento);
-            const result = validatePartialMedicos({ nombre, apellido, fechaNacimiento: dateNacimiento, email, password, telefonosAlternativo });
+            const segundotelefono = parseInt(telefonoAlternativo)
+            const result = validatePartialMedicos({ nombre, apellido, fechaNacimiento: dateNacimiento, email, password, telefono_alternativo: segundotelefono });
             if (!result.success) {
                 console.log('Error al validar datos');
                 return res.status(400).json({ error: JSON.parse(result.error.message) });
@@ -209,7 +210,7 @@ class MedicosController {
             }
     
             // Extraer datos validados y parseados
-            const { fechaNacimiento: nacimientoDate, telefonos: telefonoAlternativo } = result.data;
+            const { fechaNacimiento: nacimientoDate, telefonoAlternativo: telefonosegundo } = result.data;
     
             // Eliminar el dominio del email
             const emailSinDominio = email.split('@')[0];
@@ -233,12 +234,21 @@ class MedicosController {
             if (!updatedUsuario) {
                 return res.status(404).json({ message: 'Error al modificar el usuario desde MedicoController' });
             }
-    
+            
+            // Obtengo los datos de usuario y telefonos
+            const { usuario } = await Usuario.getByDni(dni);
+            if (!usuario) {
+                console.log('Controller Paciente: Usuario no encontrado');
+                return res.status(404).send('Usuario no encontrado');
+            }
+            console.log('Controller Paciente: USUARIO encontrado:', usuario);
+            const { id } = usuario
             // Guardar el teléfono alternativo si se proporciona
             if (telefonoAlternativo) {
-                await Usuario.addTelefonoAlternativo(id, telefonoAlternativo);
-                console.log('Teléfono alternativo guardado:', telefonoAlternativo);
-            } else {console.log('No hay Teléfono alternativo')}
+                const addTA = await Usuario.addTelefonoAlternativo(id, segundotelefono);
+                if (!addTA) { return res.status(404).send('Error al tratar de guardar telefono alternativo') }
+                console.log('Teléfono alternativo guardado:', segundotelefono);
+            } else { console.log('No hay Teléfono alternativo') }
     
             // Verificar y redirigir
             console.log('Nombre Update:', nombreUpdate);
