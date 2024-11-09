@@ -1,0 +1,42 @@
+extends ../layout
+block contenido
+    style.
+        .center-text {
+        text-align: center;
+        }
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous")
+    h1.center-text Turnos
+    h3= `Turnos del Dr.${turnos.nombre}, ${turnos.apellido}`
+    br
+    a(href="/turnos/create" class="btn btn-success") Crear Turno
+    if mensaje
+      .alert.alert-success
+        h1= mensaje    
+    table(class='table table-striped')   
+        thead 
+            tr 
+                th Id
+                th N° Agenda
+                th Fecha
+                th Hora Inicio
+                th Motivo
+                th Duracion
+                th Estado 
+                th Orden
+                th Paciente
+                th Acciones                
+        tbody 
+            each turno in turnos 
+                tr 
+                    td= turno.id
+                    td= turno.id_agenda
+                    td= `${turno.hora_inicio} hs`
+                    td= turno.motivo
+                    td= `${turno.duracion_turnos} minutos`
+                    td= turno.estado
+                    td= turno.orden
+                    td= turno.paciente
+                    td
+                       a(href=`/turnos/${turno.id}` class="btn btn-success") Reservar
+                       a(href=`/turnos/edit/${turno.id}` class="btn btn-info") Editar
+                       

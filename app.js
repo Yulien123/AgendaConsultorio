@@ -13,6 +13,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const MedicosRouter = require('./routes/medicosRoutes');
 const especialidadesRoutes = require('./routes/especialidadesRoutes');
 const PacientesRouter = require('./routes/pacientesRoutes')
+const AgendasRouter = require('./routes/agendasRoutes')
 
 
 app.set('view engine', 'pug')
@@ -44,7 +45,13 @@ app.use('/medicos', MedicosRouter);
 //Gestion especialidades
 app.use('/especialidades', especialidadesRoutes);
 //Gestion Pacientes
+// <<<<<<< HEAD
 app.use('/pacientes', PacientesRouter);
+
+app.use('/pacientes', PacientesRouter)
+//Gestion Agendas
+app.use('/agendas', AgendasRouter)
+// >>>>>>> e2669f8c3830eec43611e38355ce20a125946fd9
 
 
 app.listen(PORT, () => {

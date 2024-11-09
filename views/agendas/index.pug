@@ -1,0 +1,46 @@
+extends ../layout
+block contenido
+    style.
+        .center-text {
+        text-align: center;
+        }
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous")
+    h1.center-text Agendas
+    br
+    a(href="/agendas/create" class="btn btn-success") Crear Agenda
+    if mensaje
+      .alert.alert-success
+        h1= mensaje    
+    table(class='table table-striped')   
+        thead 
+            tr 
+                th Id
+                th Comienza
+                th Termina
+                th Horario de Inicio
+                th Horario de Fin
+                th Duracion
+                th Sobreturnos 
+                th Profesional
+                th Especialidad
+                th Consultorio
+                th Clasificación
+                th Acciones                
+        tbody 
+            each agenda in agendas 
+                tr 
+                    td= agenda.id
+                    td= agenda.fecha_creacion
+                    td= agenda.fecha_fin
+                    td= `${agenda.hora_inicio} hs`
+                    td= `${agenda.hora_fin} hs`
+                    td= `${agenda.duracion_turnos} minutos`
+                    td= agenda.limite_sobreturnos
+                    td= `Dr. ${agenda.nombre} ${agenda.apellido}`
+                    td= agenda.especialidad
+                    td= agenda.sucursal
+                    td= agenda.clasificacion
+                    td
+                       a(href=`/turnos/${agendas.id}` class="btn btn-success") Ver Turnos 
+                       a(href=`/agendas/edit/${agendas.id}` class="btn btn-info") Editar
+                       
