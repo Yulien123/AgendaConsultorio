@@ -7,4 +7,8 @@ block contenido
             each especialidad in especialidades
                 li.list-group-item
                     a(href=`/especialidades/${especialidad.id}`)= especialidad.nombre
+                    .button-group(style="display: block; margin-left: 100px;")
+                        a.btn.btn-primary(href=`/especialidades/${especialidad.id}/edit`) Modificar
+                        a.btn.btn-danger(href=`/especialidades/${especialidad.id}/disable`) Inhabilitar
         a.btn.btn-primary(href="/especialidades/create") Agregar Especialidad
+        

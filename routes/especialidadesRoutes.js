@@ -8,7 +8,7 @@ EspecialidadesRouter.get('/', especialidadesControllers.getAll);
 EspecialidadesRouter.get('/create', especialidadesControllers.create);
 
 //Guardar especialidad
-EspecialidadesRouter.post('/', especialidadesControllers.store);
+EspecialidadesRouter.post('/store', especialidadesControllers.store);
 
 // Editar especialidad
 EspecialidadesRouter.get('/edit/:id', especialidadesControllers.edit);
@@ -21,8 +21,6 @@ EspecialidadesRouter.post('/activar/:id', especialidadesControllers.activate);
 
 //Inactivar especialidad
 EspecialidadesRouter.post('/inactivar/:id', especialidadesControllers.inactivate);
-
-
 
 
 module.exports = EspecialidadesRouter;

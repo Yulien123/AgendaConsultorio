@@ -1,6 +1,9 @@
 extends ../layout
 block contenido
     a(href="/medicos/create" class="btn btn-success") Crear Médico
+        div.spacer(style="width: 10px;")
+    a(href="/especialidades" class="btn btn-primary") Gestionar Especialidades
+
     if mensaje
       .alert.alert-success
         h1= mensaje
