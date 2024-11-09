@@ -43,7 +43,7 @@ app.use((err, req, res, next) => {
 //gestion medicos
 app.use('/medicos', MedicosRouter);
 //Gestion especialidades
-app.use('/especialidad', especialidadRoutes);
+app.use('/especialidades', especialidadRoutes);
 //Gestion Pacientes
 app.use('/pacientes', PacientesRouter)
 //Gestion Agendas
