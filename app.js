@@ -11,7 +11,7 @@ const PORT = process.env.PORT ?? 3000
 app.use(express.static(path.join(__dirname, 'public')));
 
 const MedicosRouter = require('./routes/medicosRoutes');
-const especialidadRoutes = require('./routes/especialidadRoutes');
+const especialidadesRoutes = require('./routes/especialidadesRoutes');
 const PacientesRouter = require('./routes/pacientesRoutes')
 
 
@@ -42,9 +42,9 @@ app.use((err, req, res, next) => {
 //gestion medicos
 app.use('/medicos', MedicosRouter);
 //Gestion especialidades
-app.use('/especialidades', especialidadRoutes);
+app.use('/especialidades', especialidadesRoutes);
 //Gestion Pacientes
-app.use('/pacientes', PacientesRouter)
+app.use('/pacientes', PacientesRouter);
 
 
 app.listen(PORT, () => {

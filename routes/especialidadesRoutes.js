@@ -1,10 +1,10 @@
 const express = require('express');
-const EspecialidadRouter = express.Router();
-const EspecialidadController = require('../controllers/Especialidad');
+const EspecialidadesRouter = express.Router();
+const especialidadesControllers = require('../controllers/EspecialidadesControllers');
 
-EspecialidadRouter.get('/', EspecialidadController.getAll);
+EspecialidadesRouter.get('/', especialidadesControllers.getAll);
 //Crear especialidad
-EspecialidadRouter.get('/create', EspecialidadController.create);
+EspecialidadesRouter.get('/create', especialidadesControllers.create);
 //Actualizar especialidad
 // EspecialidadRouter.post('/update/:id', EspecialidadController.update);
 // //Eliminar especialidad
@@ -13,5 +13,5 @@ EspecialidadRouter.get('/create', EspecialidadController.create);
 // EspecialidadRouter.post('/inactivar/:id', EspecialidadController.inactivar);
 
 
-//module.exports = EspecialidadController;
-module.exports = EspecialidadRouter;
+
+module.exports = EspecialidadesRouter;
