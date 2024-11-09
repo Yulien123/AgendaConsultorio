@@ -3,14 +3,25 @@ const EspecialidadesRouter = express.Router();
 const especialidadesControllers = require('../controllers/EspecialidadesControllers');
 
 EspecialidadesRouter.get('/', especialidadesControllers.getAll);
+
 //Crear especialidad
 EspecialidadesRouter.get('/create', especialidadesControllers.create);
+
+//Guardar especialidad
+EspecialidadesRouter.post('/', especialidadesControllers.store);
+
+// Editar especialidad
+EspecialidadesRouter.get('/edit/:id', especialidadesControllers.edit);
+
 //Actualizar especialidad
-// EspecialidadRouter.post('/update/:id', EspecialidadController.update);
-// //Eliminar especialidad
-// EspecialidadRouter.post('/activar/:id', EspecialidadController.activar);
-// //Inactivar especialidad
-// EspecialidadRouter.post('/inactivar/:id', EspecialidadController.inactivar);
+EspecialidadesRouter.put('/update/:id', especialidadesControllers.update);
+
+//Activar especialidad
+EspecialidadesRouter.post('/activar/:id', especialidadesControllers.activate);
+
+//Inactivar especialidad
+EspecialidadesRouter.post('/inactivar/:id', especialidadesControllers.inactivate);
+
 
 
 

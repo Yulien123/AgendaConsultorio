@@ -48,7 +48,7 @@ app.use('/especialidades', especialidadesRoutes);
 // <<<<<<< HEAD
 app.use('/pacientes', PacientesRouter);
 
-app.use('/pacientes', PacientesRouter)
+//app.use('/pacientes', PacientesRouter);
 //Gestion Agendas
 app.use('/agendas', AgendasRouter)
 // >>>>>>> e2669f8c3830eec43611e38355ce20a125946fd9

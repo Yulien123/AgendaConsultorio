@@ -89,6 +89,32 @@ class Especialidad {
             if (conn) conn.end();
         }   
     }
+    static async inactivate(id) {
+        let conn;
+        try {    
+            conn = await createConnection();
+            const [result] = await conn.query('UPDATE especialidades SET estado = 0 WHERE id = ?', [id]);
+            return result;
+        } catch (error) {
+            console.error('Error inactivating especialidad:', error);
+            throw new Error('Error al inactivar especialidad');
+        } finally {
+            if (conn) conn.end();
+        }
+    }
+    static async activate(id) {    
+        let conn;
+        try {    
+            conn = await createConnection();
+            const [result] = await conn.query('UPDATE especialidades SET estado = 1 WHERE id = ?', [id]);
+            return result;
+        } catch (error) {
+            console.error('Error activating especialidad:', error);
+            throw new Error('Error al activar especialidad');
+        } finally {
+            if (conn) conn.end();
+        }
+    }
 
 
 }
