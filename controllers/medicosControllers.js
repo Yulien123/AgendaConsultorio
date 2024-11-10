@@ -129,7 +129,7 @@ class MedicosController {
             });
 
             if (medicoCreado) {
-                console.log('Controller: Medico insertada con éxito');
+                console.log('Controller: Medico insertado con éxito');
                 res.redirect(`/medicos?nombreStore=${nombreStore}`);
             } else {
                 res.status(404).json({ message: 'Error al crear el medico' });

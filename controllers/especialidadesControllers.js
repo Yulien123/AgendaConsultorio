@@ -4,7 +4,10 @@ class EspecialidadesController {
     async getAll(req, res) {
         try {
             const especialidades = await Especialidad.getAll();
-            res.render('especialidades/index', { especialidades });
+
+            const successMessage = req.query.success;
+            res.render('especialidades/index', { especialidades, successMessage });
+            //res.render('especialidades/index', { especialidades });
 
             //res.status(200).json(especialidades);
         } catch (error) {
@@ -26,19 +29,39 @@ class EspecialidadesController {
     create(req, res) {
         res.render('especialidades/crear')
     }
+    // async store(req, res) {
+    //     const { nombre } = req.body;
+    //     try {
+    //         const especialidad = await Especialidad.createNewEspecialidad(nombre);
+    //         res.redirect('/especialidades');
+    //     } catch (error) {
+    //         console.error('Error creating especialidad:', error);
+    //         res.status(500).json({ message: 'Error al crear especialidad' });
+    //     }
+    // }
     async store(req, res) {
         const { nombre } = req.body;
         try {
             const especialidad = await Especialidad.createNewEspecialidad(nombre);
+            // res.render('especialidades/index', {
+            //     especialidad,
+            //     successMessage: 'Especialidad agregada correctamente'
+            // });
             res.redirect('/especialidades');
         } catch (error) {
-            console.error('Error creating especialidad:', error);
-            res.status(500).json({ message: 'Error al crear especialidad' });
+            res.render('especialidades/crear', { errorMessage: error.message });
+            // console.error('Error creating especialidad:', error);
+            // res.status(500).json({ message: 'Error al crear especialidad' });
         }
     }
 
-    edit(req, res) {
+    async edit(req, res) {
+
+        
+        //res.render('especialidades/editar:id');
+        //res.render('especialidades/editar', { id });
         res.render('especialidades/editar');
+
     }
     async update(req, res) { 
         const { id } = req.params;

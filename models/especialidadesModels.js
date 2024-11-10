@@ -6,7 +6,7 @@ class Especialidad {
         let conn;
         try {
             conn = await createConnection();
-            const [especialidades] = await conn.query('SELECT id, nombre FROM especialidades');
+            const [especialidades] = await conn.query('SELECT id, nombre, estado FROM especialidades');
             return especialidades;
         } catch (error) {
             console.error('Error fetching especialidades:', error);
@@ -77,18 +77,47 @@ class Especialidad {
         let conn;
         try {
             conn = await createConnection();
+    
+            // Check if the especialidad already exists
+            const [existingEspecialidad] = await conn.query(`
+                SELECT id FROM especialidades WHERE nombre = ?
+            `, [especialidad]);
+    
+            if (existingEspecialidad.length > 0) {
+                throw new Error('La especialidad ya existe');
+            }
+    
+            // If not existing, insert the new especialidad
             const [result] = await conn.query(`
                 INSERT INTO especialidades (nombre)
                 VALUES (?)
             `, [especialidad]);
+    
             return result;
         } catch (error) {
             console.error('Error creating especialidad:', error);
-            throw new Error('Error al crear especialidad');
+            throw new Error(error.message || 'Error al crear especialidad');
         } finally {
             if (conn) conn.end();
         }   
     }
+    
+    // static async createNewEspecialidad(especialidad) {
+    //     let conn;
+    //     try {
+    //         conn = await createConnection();
+    //         const [result] = await conn.query(`
+    //             INSERT INTO especialidades (nombre)
+    //             VALUES (?)
+    //         `, [especialidad]);
+    //         return result;
+    //     } catch (error) {
+    //         console.error('Error creating especialidad:', error);
+    //         throw new Error('Error al crear especialidad');
+    //     } finally {
+    //         if (conn) conn.end();
+    //     }   
+    // }
     static async inactivate(id) {
         let conn;
         try {    
