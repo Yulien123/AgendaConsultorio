@@ -62,3 +62,54 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+  const medicosSelect = document.getElementById('medicos');
+  const verEspecialidadesBtn = document.getElementById('verEspecialidades');
+  const especialidadesModal = document.getElementById('especialidadesModal');
+  const listaEspecialidades = document.getElementById('listaEspecialidades');
+  const especialidadesSeleccionadas = document.getElementById('especialidadesSeleccionadas');
+  const closeModal = document.getElementsByClassName('close')[0];
+
+  medicosSelect.addEventListener('change', function() {
+    const medicoId = this.value;
+    if (medicoId) {
+      verEspecialidadesBtn.style.display = 'block';
+    } else {
+      verEspecialidadesBtn.style.display = 'none';
+    }
+  });
+
+  verEspecialidadesBtn.addEventListener('click', function() {
+    const medicoId = medicosSelect.value;
+    if (medicoId) {
+      fetch(`/api/especialidades/${medicoId}`)
+        .then(response => response.json())
+        .then(data => {
+          listaEspecialidades.innerHTML = '';
+          data.forEach(especialidad => {
+            const li = document.createElement('li');
+            li.textContent = especialidad.especialidades;
+            li.addEventListener('click', function() {
+              const especialidadSeleccionada = document.createElement('li');
+              especialidadSeleccionada.textContent = especialidad.especialidades;
+              especialidadesSeleccionadas.appendChild(especialidadSeleccionada);
+              especialidadesModal.style.display = 'none';
+            });
+            listaEspecialidades.appendChild(li);
+          });
+          especialidadesModal.style.display = 'block';
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  });
+
+  closeModal.addEventListener('click', function() {
+    especialidadesModal.style.display = 'none';
+  });
+
+  window.addEventListener('click', function(event) {
+    if (event.target == especialidadesModal) {
+      especialidadesModal.style.display = 'none';
+    }
+  });
+});

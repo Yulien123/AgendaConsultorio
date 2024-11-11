@@ -54,6 +54,26 @@ class AgendasController {
             next(error);
         }
     }
+    //Mostrar especialidades
+    async getMedicosAgenda(req, res, next) {
+        console.log('Controller Agenda: Medicos Agenda get');
+        try {
+            const medicos = await Medico.getAll();
+            if (medicos) {
+                console.log('Medicos enviados al formulario de Agenda');
+                res.render('agendas/crear', { medicos });
+            } else {
+                res.status(404).json({ message: 'Error al cargar las medicos al formulario crear agenda' });
+            }
+        } catch (error) {
+            console.error('Error al obtener medicos:', error);
+            next(error);
+        }
+    }
+    //Muestra la vista vista crear
+    create(req, res) {
+        res.render('agendas/crear')
+    }
 }
 
 module.exports = new AgendasController()

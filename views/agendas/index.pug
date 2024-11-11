@@ -11,7 +11,7 @@ block contenido
     if mensaje
       .alert.alert-success
         h1= mensaje    
-    table(class='table table-striped')   
+    table#example   
         thead 
             tr 
                 th Id
@@ -41,6 +41,6 @@ block contenido
                     td= agenda.sucursal
                     td= agenda.clasificacion
                     td
-                       a(href=`/turnos/${agendas.id}` class="btn btn-success") Ver Turnos 
-                       a(href=`/agendas/edit/${agendas.id}` class="btn btn-info") Editar
+                       a(href=`/turnos/${agenda.id}` class="btn btn-success") Ver Turnos 
+                       a(href=`/agendas/edit/${agenda.id}` class="btn btn-info") Editar
                        

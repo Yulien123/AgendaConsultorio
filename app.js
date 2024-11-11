@@ -11,14 +11,16 @@ const PORT = process.env.PORT ?? 3000
 app.use(express.static(path.join(__dirname, 'public')));
 
 const MedicosRouter = require('./routes/medicosRoutes');
-const especialidadesRoutes = require('./routes/especialidadesRoutes');
+const EspecialidadRoutes = require('./routes/especialidadesRoutes');
 const PacientesRouter = require('./routes/pacientesRoutes')
 const AgendasRouter = require('./routes/agendasRoutes')
+const TurnosRouter = require('./routes/turnosRoutes');
+const Especialidad = require('./models/especialidadesModels');
+
 
 
 app.set('view engine', 'pug')
 app.set('views', 'views')
-
 
 
 // Configurar Morgan para registrar solicitudes en la consola
@@ -43,15 +45,25 @@ app.use((err, req, res, next) => {
 //gestion medicos
 app.use('/medicos', MedicosRouter);
 //Gestion especialidades
-app.use('/especialidades', especialidadesRoutes);
+app.use('/especialidad', EspecialidadRoutes);
 //Gestion Pacientes
-// <<<<<<< HEAD
-app.use('/pacientes', PacientesRouter);
-
-//app.use('/pacientes', PacientesRouter);
+app.use('/pacientes', PacientesRouter)
 //Gestion Agendas
 app.use('/agendas', AgendasRouter)
-// >>>>>>> e2669f8c3830eec43611e38355ce20a125946fd9
+//Gestion Turnos
+app.use('/turnos', TurnosRouter)
+
+app.get('/api/especialidades/:medicoId', async (req, res) => {
+    const medicoId = req.params.medicoId;
+    try {
+      const especialidades = await Especialidad.getEspecialidadesById(medicoId);
+      res.json(especialidades);
+    } catch (error) {
+      console.error('Error fetching especialidades:', error);
+      res.status(500).json({ error: 'Error al obtener las especialidades' });
+    }
+  });
+  
 
 
 app.listen(PORT, () => {
