@@ -15,12 +15,18 @@ const EspecialidadRoutes = require('./routes/especialidadesRoutes');
 const PacientesRouter = require('./routes/pacientesRoutes')
 const AgendasRouter = require('./routes/agendasRoutes')
 const TurnosRouter = require('./routes/turnosRoutes');
+const obrasSocialesRouter = require('./routes/obrassocialesRoutes');
+
+
 const Especialidad = require('./models/especialidadesModels');
 
 
 
 app.set('view engine', 'pug')
 app.set('views', 'views')
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 
 // Configurar Morgan para registrar solicitudes en la consola
@@ -52,6 +58,8 @@ app.use('/pacientes', PacientesRouter)
 app.use('/agendas', AgendasRouter)
 //Gestion Turnos
 app.use('/turnos', TurnosRouter)
+//Gestion obras sociales
+app.use('/obrassociales', obrasSocialesRouter)
 
 app.get('/api/especialidades/:medicoId', async (req, res) => {
     const medicoId = req.params.medicoId;

@@ -313,6 +313,7 @@ class MedicosController {
             next(error);
         }
     }
+   
 }
 
 module.exports = new MedicosController()

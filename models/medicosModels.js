@@ -107,7 +107,7 @@ class Medico extends Usuario {
             if (conn) conn.end();
         }
     }
-    //Traer especialidades del medico por el id
+    //Traer especialidades del medico por el dni
     static async getEspecialidadesById(dni) {
         let conn;
         try {
@@ -119,7 +119,7 @@ class Medico extends Usuario {
                 FROM medico_especialidad me 
                 LEFT JOIN especialidades e ON me.id_especialidad = e.id 
                 JOIN usuarios u ON me.id_medico = u.id 
-                WHERE u.dni = 81234567 
+                WHERE u.dni = ? 
                 GROUP BY u.dni;
             `, [dni]);
 

@@ -24,27 +24,46 @@ block contenido
       .mb-3
         label(for="limite_sobreturnos" class="form-label") Limite de Sobreturnos:
         input#limite_sobreturnos.form-control(type="number" name="limite_sobreturnos" required)
-      .mb-3
-        label(for="medicos" class="form-label") Asignar Agenda al Profesional:
-        select#medicos.form-control(name="medicos" required)
-          option(value="") Seleccionar
-          if medicos
-            each medico in medicos
-              option(value=medico.id_usuario)= `${medico.nombre} ${medico.apellido}`
-          else
-            option(value="") No hay Profesionales disponibles
-        button#verEspecialidades.btn.btn-secondary(type="button" style="display: none;") Ver Especialidades
-      .mb-3
-        label(for="especialidadesSeleccionadas" class="form-label") Especialidades Seleccionadas:
-        ul#especialidadesSeleccionadas
-      button.btn.btn-primary(type="submit") Crear Agenda
 
-    //- Ventana emergente para mostrar especialidades
-    .modal#especialidadesModal
-      .modal-content
-        span.close ×
-        h3 Especialidades del Profesional
-        ul#listaEspecialidades
+      h3 Médico y Especialidades
+      .mb-3
+        label(for="medicosSelect" class="form-label") Selecciona un Médico:
+        select#medicosSelect.form-control(name="medicoId" required)
+          option(value="") Selecciona un médico
+          each medico in medicos
+            option(value=medico.id) #{medico.nombre} #{medico.apellido}
+      .mb-3
+        label(for="especialidadesSelect" class="form-label") Selecciona una Especialidad:
+        select#especialidadesSelect.form-control(name="especialidadId" style="display:none")
+          option(value="") Selecciona una especialidad
+
+      button(type="submit" class="btn btn-primary") Crear Agenda
+
+    script(src="https://code.jquery.com/jquery-3.6.0.min.js")
+    script.
+      $('#medicosSelect').on('change', function() {
+        const medicoId = $(this).val();
+        if (medicoId) {
+          $.ajax({
+            url: `/especialidades/${medicoId}`,
+            method: 'GET',
+            success: function(data) {
+              const especialidadesSelect = $('#especialidadesSelect');
+              especialidadesSelect.empty().append('<option value="">Selecciona una especialidad</option>');
+              data.forEach(especialidad => {
+                especialidadesSelect.append(`<option value="${especialidad.id}">${especialidad.nombre}</option>`);
+              });
+              especialidadesSelect.show();
+            },
+            error: function(error) {
+              console.error('Error:', error);
+            }
+          });
+        } else {
+          $('#especialidadesSelect').hide();
+        }
+      });
+
     script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous")
-    script(src="/js/medicos.js")
+    script(src="/js/agendas.js")
