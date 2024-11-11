@@ -12,12 +12,13 @@ EspecialidadesRouter.post('/store', especialidadesControllers.store);
 
 // Editar especialidad
 //EspecialidadesRouter.get('/editar/:id', especialidadesControllers.edit);
-EspecialidadesRouter.get('/editar', especialidadesControllers.edit);
+//EspecialidadesRouter.get('/editar', especialidadesControllers.edit);
 
-
-
+//Vista editar
+EspecialidadesRouter.get('/editar/:id', especialidadesControllers.edit);
 //Actualizar especialidad
-EspecialidadesRouter.post('/edit/:id', especialidadesControllers.update);
+EspecialidadesRouter.post('/update/:id', especialidadesControllers.update);
+//EspecialidadesRouter.post('/editar/:id', especialidadesControllers.update);
 
 //Activar especialidad
 EspecialidadesRouter.post('/activar/:id', especialidadesControllers.activate);

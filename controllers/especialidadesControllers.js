@@ -56,11 +56,22 @@ class EspecialidadesController {
     }
 
     async edit(req, res) {
-
-        
-        //res.render('especialidades/editar:id');
-        //res.render('especialidades/editar', { id });
-        res.render('especialidades/editar');
+        const { id } = req.params;
+        console.log(`Controller: edit, Buscando especialidad con ID: ${id}`);
+       try{
+            const especialidad = await Especialidad.getEspecialidadById(id);
+            if (!especialidad) {
+                console.log('Especialidad no encontrada');
+                return res.status(404).send('Especialidad no encontrada');
+            }
+            console.log('Controller: Especialidad encontrada:', especialidad);
+            console.log('Enviando a especialidad a la vista editar...');
+            res.render('especialidades/editar', { especialidad });
+        } catch (error) {    
+            console.error('Error al obtener especialidad:', error); 
+            res.status(500).json({ message: 'Error al obtener especialidad' });          
+        }
+      
 
     }
     async update(req, res) { 

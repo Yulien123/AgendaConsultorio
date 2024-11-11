@@ -144,7 +144,32 @@ class Especialidad {
             if (conn) conn.end();
         }
     }
-
+    static async getEspecialidadById(id) {
+        let conn;
+        try {
+            conn = await createConnection();
+            const [especialidad] = await conn.query('SELECT id, nombre, estado FROM especialidades WHERE id = ?', [id]);
+            return especialidad;
+        } catch (error) {
+            console.error('Error fetching especialidad:', error);
+            throw new Error('Error al traer especialidad desde el modelo');
+        } finally {
+            if (conn) conn.end();
+        }
+    }
+    static async updateEspecialidad(id, especialidad) {
+        let conn;
+        try {
+            conn = await createConnection();
+            const [result] = await conn.query('UPDATE especialidades SET nombre = ? WHERE id = ?', [especialidad, id]);
+            return result;
+        } catch (error) {
+            console.error('Error updating especialidad:', error);
+            throw new Error('Error al actualizar especialidad');
+        } finally {
+            if (conn) conn.end();
+        }
+    }
 
 }
 
