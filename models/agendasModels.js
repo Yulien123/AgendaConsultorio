@@ -74,7 +74,7 @@ class Agenda {
         duracion_turnos,
         matricula,
         id_sucursal,
-        id_clasificacion}) {
+        id_clasificacion }) {
         console.log('Model: Create agenda',);
         let conn;
         try {
@@ -90,7 +90,7 @@ class Agenda {
             }
 
             await conn.commit();
-            
+
             console.log('Agenda creada exitosamente', resultAgenda);
             return true
         } catch (error) {
@@ -105,7 +105,7 @@ class Agenda {
     static async updateAgenda(id, updates) {
         console.log('Model: update agenda');
         try {
-            console.log('en modelo',updates)
+            console.log('en modelo', updates)
             const {
                 fecha_creacion,
                 fecha_fin,
@@ -121,11 +121,32 @@ class Agenda {
 
             const [result] = await conn.query(`
                     CALL modificar_agenda(?, ?, ?, ?, ?, ?, ?, ?, ?,?)
-                `,[id,limite_sobreturnos, fecha_creacion, fecha_fin, hora_inicio, hora_fin, duracion_turnos, matricula, id_sucursal, id_clasificacion])
+                `, [id, limite_sobreturnos, fecha_creacion, fecha_fin, hora_inicio, hora_fin, duracion_turnos, matricula, id_sucursal, id_clasificacion])
             return result.affectedRows > 0;
         } catch (error) {
             console.error('Error al modificar Agenda desde el modelo:', error);
             throw new Error('Error al modificar Agenda desde el modelo');
+        }
+    }
+    // Eliminar Agenda
+    static async eliminar(id) {
+        let conn
+        try {
+            conn = await createConnection();
+            await conn.beginTransaction();
+            const [result] = await conn.query('CALL eliminar_agenda(?)', [id]);
+            if (result.affectedRows === 0) {
+                throw new Error('Error al eliminar la agenda');
+            }
+            await conn.commit(); return result;
+        } catch (error) {
+            if (conn)
+                await conn.rollback();
+            console.error('Error eliminando la agenda:', error);
+            throw new Error('Error al eliminar la agenda');
+        } finally {
+            if (conn)
+                conn.end();
         }
     }
 }

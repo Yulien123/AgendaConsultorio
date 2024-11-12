@@ -17,10 +17,9 @@ AgendasRouter.get('/edit/:id', AgendasControllers.edit);
 // Actualizar agendas
 AgendasRouter.post('/update/:id', AgendasControllers.update);
 
-// Eliminar agendas
-//AgendasRouter.post('/activar/:dni', AgendasControllers.activar)
-//inactivar
-//AgendasRouter.post('/inactivar/:dni', AgendasControllers.inactivar);
+// Eliminar agendas delete('/agendas/:id'
+AgendasRouter.delete('/:id', AgendasControllers.eliminarAgenda)
+
 
 
 module.exports = AgendasRouter

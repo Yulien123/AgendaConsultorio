@@ -12,6 +12,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const MedicosRouter = require('./routes/medicosRoutes');
 const EspecialidadesRoutes = require('./routes/especialidadesRoutes');
+
 const PacientesRouter = require('./routes/pacientesRoutes')
 const AgendasRouter = require('./routes/agendasRoutes')
 const TurnosRouter = require('./routes/turnosRoutes');

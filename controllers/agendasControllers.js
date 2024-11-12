@@ -171,12 +171,12 @@ class AgendasController {
         try {
             const { id } = req.params;
             console.log(req.body)
-            const { fecha_creacion: fc, fecha_fin: ff, hora_inicio: hi, hora_fin: hf, limite_sobreturnos: ls, duracion_turnos: dt, martricula:nro , sucursal: i_s, clasificacion: i_c } = req.body;
+            const { fecha_creacion: fc, fecha_fin: ff, hora_inicio: hi, hora_fin: hf, limite_sobreturnos: ls, duracion_turnos: dt, martricula: nro, sucursal: i_s, clasificacion: i_c } = req.body;
             // Validar datos
 
             const dateCreacion = new Date(fc)
             const dateFin = new Date(ff)
-           
+
             //validar fechas
             const today = new Date().toISOString().split('T')[0];
             if (dateCreacion < today) {
@@ -188,21 +188,21 @@ class AgendasController {
                 return res.status(404).json({ message: 'Error al crear el Agenda' });
             }
 
-            const result = validatePartialAgendas({ fecha_creacion: dateCreacion, fecha_fin: dateFin, hora_inicio: hi, hora_fin: hf, limite_sobreturnos: ls, duracion_turnos: dt, nromatricula: nro, id_sucursal: i_s, id_clasificacion: i_c  });
+            const result = validatePartialAgendas({ fecha_creacion: dateCreacion, fecha_fin: dateFin, hora_inicio: hi, hora_fin: hf, limite_sobreturnos: ls, duracion_turnos: dt, nromatricula: nro, id_sucursal: i_s, id_clasificacion: i_c });
             if (!result.success) {
                 console.log('Error al validar datos');
                 return res.status(400).json({ error: JSON.parse(result.error.message) });
             } else {
                 console.log('Datos Validados...');
             }
-            
+
             //le paso datos validados y parseados
             const { fecha_creacion: fecha_c, fecha_fin: fecha_f, hora_inicio: hora_i, hora_fin: hora_f, limite_sobreturnos: limite_s, duracion_turnos: duracion_t, nromatricula: matriculaNum, id_sucursal: sucursal_id, id_clasificacion: clasificacion_id } = result.data;
 
             // Convertir la fecha de nacimiento al formato YYYY-MM-DD
             const creacionFinal = fecha_c.toISOString().split('T')[0];
             const finFinal = fecha_f.toISOString().split('T')[0];
-            
+
             // Obtengo los datos de usuario y telefonos
             const agendaId = await Agenda.getAgendaById(id);
             if (!agendaId) {
@@ -224,7 +224,7 @@ class AgendasController {
                 id_sucursal: sucursal_id,
                 id_clasificacion: clasificacion_id
             }
-            
+
             const updatedAgenda = await Agenda.updateAgenda(id, updateA);
             console.log('Resultado de updateAgenda:', updatedAgenda);
             if (!updatedAgenda) {
@@ -233,6 +233,21 @@ class AgendasController {
             res.redirect(`/agendas?nombreUpdate=${true}`);
         } catch (error) {
             next(error);
+        }
+    }
+    // eliminar
+    async eliminarAgenda(req, res, next) {
+        console.log('Controller: Eliminar agenda');
+        try {
+            const { id } = req.params;
+            const resultado = await Agenda.eliminar(id);
+            if (!resultado) {
+                return res.status(500).json({ message: 'Error al eliminar la agenda' });
+            }
+            res.status(200).json({ message: 'Agenda eliminada exitosamente' });
+        } catch (error) {
+            console.error('Error al eliminar agenda desde el controlador:', error);
+            res.status(400).send('Error al eliminar la agenda'); next(error);
         }
     }
 }

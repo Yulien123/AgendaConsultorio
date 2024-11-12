@@ -5,6 +5,7 @@ block contenido
         text-align: center;
         }
     script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous")
+    script(src="https://cdn.jsdelivr.net/npm/sweetalert2@11")
     h1.center-text Agendas
     br
     a(href="/agendas/create" class="btn btn-success") Crear Agenda
@@ -43,5 +44,54 @@ block contenido
                     td
                        a(href=`/turnos/${agenda.id}` class="btn btn-success") Ver Turnos 
                        a(href=`/agendas/edit/${agenda.id}` class="btn btn-info") Editar
-                       a(href=`/agendas/${agenda.id}` class="btn btn-danger") Eliminar
+                       button(onclick=`confirmDelete(${agenda.id})` class="btn btn-danger") Eliminar
+    script. 
+        function confirmDelete(id) { 
+            Swal.fire({ 
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning', 
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6', 
+                cancelButtonColor: '#d33', 
+                confirmButtonText: 'Sí, eliminarlo!' 
+            }).then((result) => { 
+                if (result.isConfirmed) {
+                    // Lógica para eliminar la agenda 
+                    deleteAgenda(id); 
+                }
+            }); 
+        }
+
+        function deleteAgenda(id) { 
+            fetch(`/agendas/${id}`, { 
+                method: 'DELETE' 
+            }).then(response => { 
+                if (response.ok) { 
+                    Swal.fire( 
+                        'Eliminado!', 
+                        'La agenda ha sido eliminada.', 
+                        'success' 
+                    ).then(() => {
+                        //refresca la pagina despues de eliminar
+                        location.reload()
+                    })
+                    // Actualiza la tabla o realiza cualquier otra acción necesaria 
+                } else { 
+                    Swal.fire( 
+                        'Error!',
+                        'Hubo un problema al eliminar la agenda.', 
+                        'error'
+                     ); 
+                }
+            })
+            .catch(error => { 
+                Swal.fire( 
+                    'Error!', 
+                    'Hubo un problema al eliminar la agenda.', 
+                    'error' 
+                ); 
+            }); 
+        }
+                       
                        
