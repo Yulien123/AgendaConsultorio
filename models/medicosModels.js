@@ -150,6 +150,32 @@ class Medico extends Usuario {
             throw error;
         }
     }
+
+    static async getAllMatriculas() {
+        console.log('Model: matriculas getall');
+        let conn;
+        try {
+            conn = await createConnection();
+            const [matriculasData] = await conn.query(`
+                SELECT p.nombre nombre, p.apellido apellido, me.matricula matricula, e.nombre nombreMat
+                FROM medico_especialidad me
+                JOIN usuarios u ON me.id_medico = u.id
+                JOIN personas p ON u.dni = p.dni
+                JOIN especialidades e ON me.id_especialidad = e.id 
+            `);
+            if (!matriculasData || matriculasData.length === 0) {
+                console.log('Model agenda: No se encontró ninguna matricula');
+                throw new Error('Ha ocurrido un error inesperado');
+            }
+            return matriculasData;
+        } catch (error) {
+            console.error('Error al obtener matriculas', error);
+            throw new Error('Ha ocurrido un error al traer matriculas');
+        } finally {
+            if (conn) conn.end();
+        }
+    }
+    
     // update medico SIN USO NO DISPONIBLE
     static async updateMedico(id, updates) {
         console.log('Model: update medico');
@@ -183,14 +209,14 @@ class Medico extends Usuario {
             const conn = await createConnection();
             const query = 'UPDATE medicos SET estado = 0 WHERE id_usuario = ?';
             const [result] = await conn.query(query, [id]);
-    
+
             console.log('Resultado de la consulta SQL:', result);
             console.log('Filas afectadas:', result.affectedRows);
-    
+
             if (result.affectedRows === 0) {
                 throw new Error('No se encontró el médico con el id proporcionado');
             }
-    
+
             console.log('Model: Médico inactivado exitosamente');
             return result.affectedRows === 1;
         } catch (error) {
@@ -198,7 +224,7 @@ class Medico extends Usuario {
             throw new Error('Error al inactivar médico desde el modelo');
         }
     }
-    
+
     //Activo
     static async activarMedico(id) {
         console.log('Model Medico: activar medico');
@@ -206,14 +232,14 @@ class Medico extends Usuario {
             const conn = await createConnection();
             const query = 'UPDATE medicos SET estado = 1 WHERE id_usuario = ?';
             const [result] = await conn.query(query, [id]);
-    
+
             console.log('Resultado de la consulta SQL:', result);
             console.log('Filas afectadas:', result.affectedRows);
-    
+
             if (result.affectedRows === 0) {
                 throw new Error('No se encontró el médico con el id proporcionado');
             }
-    
+
             console.log('Model: Médico activado exitosamente');
             return result.affectedRows === 1;
         } catch (error) {

@@ -43,12 +43,6 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
-
-//gestion personas
-//app.use('/personas', PersonasRouter)
-//gestion usuarios
-//app.use('/usuarios', UsuariosRouter)
-//gestion medicos
 app.use('/medicos', MedicosRouter);
 //Gestion especialidades
 app.use('/especialidades', EspecialidadesRoutes);
@@ -60,20 +54,7 @@ app.use('/agendas', AgendasRouter)
 app.use('/turnos', TurnosRouter)
 //Gestion obras sociales
 app.use('/obrassociales', obrasSocialesRouter)
-
-app.get('/api/especialidades/:medicoId', async (req, res) => {
-    const medicoId = req.params.medicoId;
-    try {
-      const especialidades = await Especialidad.getEspecialidadesById(medicoId);
-      res.json(especialidades);
-    } catch (error) {
-      console.error('Error fetching especialidades:', error);
-      res.status(500).json({ error: 'Error al obtener las especialidades' });
-    }
-  });
   
-
-
 app.listen(PORT, () => {
     console.log(`Server listening on port http://localhost:${PORT}`)
 })
