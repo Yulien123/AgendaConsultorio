@@ -313,6 +313,19 @@ class MedicosController {
             next(error);
         }
     }
+    async especialidadesxmedico(req, res, next) {
+        try {
+            const { id } = req.params;
+            const especialidades = await Medico.getEspecialidadesById(id);
+            if (!especialidades) {
+                return res.status(404).json({ message: 'Error al obtener las especialidades desde MedicoController' });
+            }
+            res.json(especialidades);
+        } catch (error) {    
+            next(error);
+        }
+    }
+   
 }
 
 module.exports = new MedicosController()

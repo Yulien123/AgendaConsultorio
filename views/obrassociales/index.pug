@@ -1,35 +1,36 @@
-
 extends ../layout
 
 block contenido
     a(href="/medicos" class="btn btn-outline-warning") Volver a Medicos
     .container
-        h1 Especialidades
+        h1 Obras Sociales
         
         if successMessage
             .alert.alert-success= successMessage
-        a.btn.btn-primary(href="/especialidades/create") Agregar Especialidad      
+        a.btn.btn-primary(href="/obrasSociales/create") Agregar Obra Social      
 
         ul.list-group
-            each especialidad in especialidades
+            each obraSocial in obrasSociales
                 li.list-group-item
-                    //- Nombre de la especialidad
-                    span.especialidad-nombre= especialidad.nombre
+                    //- Nombre de la obra social
+                    span.obraSocial-nombre= obraSocial.nombre
 
                     //- Formulario de edición (oculto inicialmente)
-                    form.edit-form(action=`/especialidades/update/${especialidad.id}`, method='post' style="display: none;")
-                        input.form-control(type="text" name="nombre" value=especialidad.nombre required)
+                    form.edit-form(action=`/obrasSociales/update/${obraSocial.id}`, method='post' style="display: none;")
+                        input.form-control(type="text" name="nombre" value=obraSocial.nombre required)
+                        textarea.form-control(name="descripcion" rows="3" required)= obraSocial.descripcion
+                        input.form-control(type="text" name="direccion" value=obraSocial.direccion required)
                         button.btn.btn-success(type="submit") Guardar
 
                     //- Grupo de botones
                     .button-group(style="display: flex; gap: 10px; margin-top: 5px;")
-                        button.btn.btn-primary(type="button" onclick=`toggleEditForm(${especialidad.id})` class="btn btn-primary btn-sm") Modificar
+                        button.btn.btn-primary(type="button" onclick=`toggleEditForm(${obraSocial.id})` class="btn btn-primary btn-sm") Modificar
 
-                        if especialidad.estado == 1                       
-                            form(action=`/especialidades/inactivar/${especialidad.id}`, method='post' id=`inactivar-form-${especialidad.id}`)
+                        if obraSocial.estado == 1                       
+                            form(action=`/obrasSociales/inactivar/${obraSocial.id}`, method='post' id=`inactivar-form-${obraSocial.id}`)
                                 button(type='submit' class="btn btn-danger btn-sm") Inactivar
                         else
-                            form(action=`/especialidades/activar/${especialidad.id}`, method='post' id=`activar-form-${especialidad.id}`)
+                            form(action=`/obrasSociales/activar/${obraSocial.id}`, method='post' id=`activar-form-${obraSocial.id}`)
                                 button(type='submit' class="btn btn-success btn-sm") Activar
 
     //- Script para mostrar/ocultar el formulario de edición y permitir solo uno a la vez
@@ -37,7 +38,7 @@ block contenido
         let activeEditForm = null;
 
         function toggleEditForm(id) {
-            const editForm = document.querySelector(`form.edit-form[action='/especialidades/update/${id}']`);
+            const editForm = document.querySelector(`form.edit-form[action='/obrasSociales/update/${id}']`);
             const nombreSpan = editForm.previousElementSibling;
 
             // Si hay un formulario activo y no es el actual, lo cerramos
@@ -46,7 +47,7 @@ block contenido
                 activeEditForm.previousElementSibling.style.display = 'block';
             }
 
-            // Alternamos el estado del formulario actual
+            // Alternar el estado del formulario actual
             if (editForm.style.display === 'none') {
                 editForm.style.display = 'block';
                 nombreSpan.style.display = 'none';
@@ -57,4 +58,3 @@ block contenido
                 activeEditForm = null; // Ningún formulario está activo
             }
         }
-

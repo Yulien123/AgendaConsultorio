@@ -108,6 +108,15 @@ class EspecialidadesController {
     }
 
 
+    async getEspecialidadesByMedico(req, res) {
+        try {
+            const especialidades = await Especialidad.findAll({ where: { medicoId: req.params.medicoId } });
+            res.json(especialidades);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Error al obtener las especialidades');
+        }
+    };
 
 }
 module.exports = new EspecialidadesController()

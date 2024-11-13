@@ -13,14 +13,15 @@ class Turno {
         this.id_agenda  
     }
     //Mostrar todos
-    static async getAll() {
+    static async getAll(id) {
         console.log('Model: Get All turnos');
         let conn;
         try {
             conn = await createConnection();
             const [turnos] = await conn.query(`
-               
-            `);
+               SELECT * FROM turnos WHERE id_agenda = ?;
+            `, [id]);
+            console.log('modelo ',turnos)
             return turnos
         } catch (error) {
             console.error('Error fetching turnos:', error);

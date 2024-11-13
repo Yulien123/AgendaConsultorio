@@ -12,7 +12,7 @@ block contenido
     if mensaje
       .alert.alert-success
         h1= mensaje    
-    table(class='table table-striped')   
+    table#example
         thead 
             tr 
                 th Id
@@ -20,7 +20,6 @@ block contenido
                 th Fecha
                 th Hora Inicio
                 th Motivo
-                th Duracion
                 th Estado 
                 th Orden
                 th Paciente
@@ -30,13 +29,19 @@ block contenido
                 tr 
                     td= turno.id
                     td= turno.id_agenda
+                    td= turno.fecha
                     td= `${turno.hora_inicio} hs`
-                    td= turno.motivo
-                    td= `${turno.duracion_turnos} minutos`
+                        -if (turno.motivo)
+                            td= turno.motivo 
+                        -else 
+                            td Vacío
                     td= turno.estado
                     td= turno.orden
-                    td= turno.paciente
+                        -if (turno.id_paciente)
+                            td= turno.id_paciente 
+                        -else 
+                            td Vacío
                     td
-                       a(href=`/turnos/${turno.id}` class="btn btn-success") Reservar
-                       a(href=`/turnos/edit/${turno.id}` class="btn btn-info") Editar
+                       a(href=`/turnos/${turnos.id}` class="btn btn-success") Reservar
+                       a(href=`/turnos/edit/${turnos.id}` class="btn btn-info") Editar
                        
