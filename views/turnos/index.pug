@@ -11,7 +11,19 @@ block contenido
     a(href="/turnos/create" class="btn btn-success") Crear Turno
     if mensaje
       .alert.alert-success
-        h1= mensaje    
+        h1= mensaje  
+        //- solo para secretaria  if(roll = secretaria){}
+    p Estado
+    select(name="estado" class="form-select small-width" ) 
+        option(value="Libre") Libre
+        option(value="Reservado") Reservado
+        option(value="Confirmado") Confirmado
+        option(value="Cancelado") Cancelado
+        option(value="Ausente") Ausente
+        option(value="Presente") Presente
+        option(value="En Consulta") En Consulta
+        option(value="Atendido") Atendido
+        option(value="No Disponible") No Disponible  
     table#example
         thead 
             tr 

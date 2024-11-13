@@ -18,11 +18,13 @@ class Medico extends Usuario {
             const [medicos] = await conn.query(`
                 SELECT u.id, u.dni, p.nombre, p.apellido, p.nacimiento, u.email, u.password, 
                 u.id_rol, m.estado, GROUP_CONCAT(DISTINCT e.nombre SEPARATOR ', ') AS especialidades, 
-                GROUP_CONCAT(DISTINCT me.matricula SEPARATOR ', ') AS matriculas, GROUP_CONCAT(DISTINCT t.numero SEPARATOR ', ') AS telefonos 
+                GROUP_CONCAT(DISTINCT me.matricula SEPARATOR ', ') AS matriculas, GROUP_CONCAT(DISTINCT t.numero SEPARATOR ', ') AS telefonos, GROUP_CONCAT(DISTINCT os.nombre SEPARATOR ', ') AS obras_sociales
                 FROM medicos m 
                 JOIN usuarios u ON m.id_usuario = u.id 
                 JOIN personas p ON u.dni = p.dni 
-                LEFT JOIN medico_especialidad me ON m.id_usuario = me.id_medico 
+                LEFT JOIN medico_especialidad me ON m.id_usuario = me.id_medico
+                LEFT JOIN medico_obra_social mo on m.id_usuario = mo.id_medico
+                JOIN obras_sociales os ON mo.id_obra_social = os.id
                 LEFT JOIN especialidades e ON me.id_especialidad = e.id 
                 LEFT JOIN telefonos t ON u.id = t.id_usuario 
                 GROUP BY u.id;

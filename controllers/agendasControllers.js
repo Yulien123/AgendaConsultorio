@@ -13,7 +13,12 @@ class AgendasController {
     async get(req, res, next) {
         console.log('Controller: Get All agendas');
         try {
-            const agendas = await Agenda.getAll();
+            //para el filtro mostrar especialidades
+            const especialidades = await Especialidad.getAll()
+            //para el filtro mostrar medicos
+            const medicos = await Medico.getAll()
+            //traer todas las agendas
+            const agendas = await Agenda.getAll()
 
             //formatear hora
             const agendaFormateada = agendas.map(agenda => {
@@ -48,7 +53,7 @@ class AgendasController {
                 mensaje = 'Agenda Creada correctamente';
             }
             //renderizo al index de agendas
-            res.render('agendas/index', { agendas: agendaFormateada, mensaje });
+            res.render('agendas/inicio', { agendas: agendaFormateada, mensaje, especialidades, medicos });
         } catch (error) {
             console.error('Error al obtener agendas desde el controlador:', error);
             next(error);

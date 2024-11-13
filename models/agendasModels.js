@@ -22,18 +22,41 @@ class Agenda {
         try {
             conn = await createConnection();
             const [agendas] = await conn.query(`
-               SELECT a.id, a.fecha_creacion, a.fecha_fin, a.hora_inicio, a.hora_fin, a.fecha_fin, a.duracion_turnos, a.limite_sobreturnos,
-                p.nombre nombre, p.apellido apellido, e.nombre especialidad, s.nombre sucursal , c.nombre clasificacion 
-                FROM agendas a 
-                -- nombre especialidad 
-                JOIN medico_especialidad me ON a.matricula = me.matricula 
-                JOIN especialidades e on me.id_especialidad = e.id 
-                -- nombre y apellido del medico 
-                JOIN usuarios u ON me.id_medico = u.id JOIN personas p ON u.dni = p.dni 
-                -- nombre sucursal 
-                JOIN sucursales s ON a.id_sucursal = s.id 
-                -- nombre clasificaicon 
-                JOIN clasificaciones c ON a.id_clasificacion = c.id;
+    SELECT a.id, a.fecha_creacion, a.fecha_fin, p.nombre AS nombre, p.apellido AS apellido,
+    GROUP_CONCAT(d.dia ORDER BY d.dia SEPARATOR ', ') AS dias,
+    dd.hora_inicio,
+    dd.hora_fin,
+    a.limite_sobreturnos,
+    a.duracion_turnos,
+    e.nombre AS especialidad,
+    s.nombre AS sucursal,
+    c.nombre AS clasificacion
+FROM agendas a
+JOIN dias_disponibles dd ON a.id = dd.id_agenda
+JOIN dias d ON dd.dia = d.id
+JOIN medico_especialidad me ON a.matricula = me.matricula
+JOIN especialidades e ON me.id_especialidad = e.id
+JOIN usuarios u ON me.id_medico = u.id
+JOIN personas p ON u.dni = p.dni
+JOIN sucursales s ON a.id_sucursal = s.id
+JOIN clasificaciones c ON a.id_clasificacion = c.id
+GROUP BY 
+    a.id, 
+    a.fecha_creacion, 
+    a.fecha_fin, 
+    p.nombre, 
+    p.apellido, 
+    dd.hora_inicio, 
+    dd.hora_fin, 
+    a.limite_sobreturnos, 
+    a.duracion_turnos, 
+    e.nombre, 
+    s.nombre, 
+    c.nombre
+ORDER BY 
+    dd.hora_inicio, 
+    dd.hora_fin;
+
             `);
             return agendas
         } catch (error) {
