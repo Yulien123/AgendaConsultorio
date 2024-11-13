@@ -11,23 +11,24 @@ block contenido
         thead 
             tr 
                 th Foto
-                th Id
+                //-th Id
                 th N° Documento
                 th Nombre
                 th Apellido
-                th Fecha Nacimiento
+                th Fecha de nacimiento
                 th Correo
                 th Contra
                 th Rol
                 th Telefonos
                 th Obras Sociales
+                th Estado
                 th Acciones
         tbody 
             each paciente in pacientes 
                 tr 
                     th 
                         img(src="/images/user_icon_004.jpg", alt="alt" class="img_dr") 
-                    td= paciente.id
+                    //-td= paciente.id
                     td= paciente.dni
                     td= paciente.nombre
                     td= paciente.apellido

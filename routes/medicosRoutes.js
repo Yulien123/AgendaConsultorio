@@ -26,7 +26,7 @@ MedicosRouter.post('/activar/:dni', MedicosControllers.activar)
 //inactivar
 MedicosRouter.post('/inactivar/:dni', MedicosControllers.inactivar);
 //Gestionar Especialidades medicos
-MedicosRouter.get('/especialidades', MedicosControllers.especialidadesxmedico);
+//MedicosRouter.get('/especialidades', MedicosControllers.especialidadesxmedico);
 
 
 module.exports = MedicosRouter;
