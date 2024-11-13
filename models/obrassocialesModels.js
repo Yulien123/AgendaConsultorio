@@ -22,9 +22,9 @@ class ObraSocial {
         try {
             conn = await createConnection();
             const [result] = await conn.query(`
-                INSERT INTO obras_sociales (nombre, descripcion, direccion, 1)
-                VALUES (?, ?, ?, ?)
-            `, [nombre, descripcion, direccion, 1]);
+                INSERT INTO obras_sociales (nombre, descripcion, direccion)
+                VALUES (?, ?, ?)
+            `, [nombre, descripcion, direccion]);
             return result;
         } catch (error) {
             console.error('Error creating obra social:', error);

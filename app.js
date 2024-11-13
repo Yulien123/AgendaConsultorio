@@ -43,7 +43,10 @@ app.use((err, req, res, next) => {
     console.error('Stack trace:', err.stack);
     res.status(500).send('Something broke!');
 });
-
+// Ruta para la página de inicio
+app.get('/', (req, res) => {
+    res.render('index'); // Asume que tienes un archivo 'index.pug' en el directorio de vistas
+  });
 app.use('/medicos', MedicosRouter);
 //Gestion especialidades
 app.use('/especialidades', EspecialidadesRoutes);

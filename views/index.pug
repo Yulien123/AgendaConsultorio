@@ -1,0 +1,75 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Consultorio Médico
+    link(rel="stylesheet" href="/css/style.css")
+    meta(charset="UTF-8")
+    title Consultorio
+    link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
+    rel="stylesheet",
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH",
+    crossorigin="anonymous")
+    link(rel='stylesheet', type='text/css', href='https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css')
+    link(rel='stylesheet', type='text/css', href='/css/style.css') 
+    script(src='https://code.jquery.com/jquery-3.5.1.js')
+    script(src='https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js')      
+
+  body
+    //- Encabezado
+    header
+      .logo
+        h1 Consultorio Médico
+      nav
+        ul
+          li: a(href="/") Inicio
+          li: a(href="/pacientes") Pacientes
+          li: a(href="/especialidades") Especialidades
+          li: a(href="/medicos") Equipo Médico
+          li: a(href="/obrassociales") Obras Sociales
+          li: a(href="/Agendas") Agendas Medicas
+          li: a(href="#Turnos") Turnos
+
+    //- Sección Principal
+    section.hero#inicio
+      .hero-content
+        h1 Bienvenido a nuestro Centro Médico
+        p Atención integral de calidad para cuidar de tu salud y bienestar.
+        //-a.btn(href="#contacto") Reserva tu cita
+
+    //- Sección de Servicios
+    section#servicios.services
+      h3 Nuestros Servicios
+      .services-container
+        .service-item
+          h4 Consulta General
+          p Atención personalizada para todas tus necesidades médicas.
+        .service-item
+          h4 Especialidades Médicas
+          p Amplio equipo de especialistas en diversas áreas.
+        .service-item
+          h4 Laboratorio Clínico
+          p Pruebas de laboratorio precisas y confiables.
+
+    //- Sección del Equipo Médico
+    //- section#equipo.team
+    //-   h3 Conoce a nuestro Equipo Médico
+    //-   .team-container
+    //-     .team-member
+    //-       h4 Dr. Juan Pérez
+    //-       p Especialista en Cardiología
+    //-     .team-member
+    //-       h4 Dra. Ana López
+    //-       p Especialista en Pediatría
+
+    //- Pie de Página
+    footer#contacto
+      p &copy; 2024 Consultorio Médico - Todos los derechos reservados
+      p Contacto: (123) 456-7890 | info@consultorio.com
+      .socials
+        a(href="#") Facebook
+        |  |
+        a(href="#") Instagram
+        |  |
+        a(href="#") LinkedIn

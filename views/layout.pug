@@ -11,6 +11,19 @@ html
         script(src='https://code.jquery.com/jquery-3.5.1.js')
         script(src='https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js')
     body
+        header
+            .logo
+              h1 Consultorio Médico
+            nav
+                ul
+                    li: a(href="/") Inicio
+                    li: a(href="/pacientes") Pacientes
+                    li: a(href="/especialidades") Especialidades
+                    li: a(href="/medicos") Equipo Médico
+                    li: a(href="/obrassociales") Obras Sociales
+                    li: a(href="/Agendas") Agendas Medicas
+                    li: a(href="#Turnos") Turnos
+        br
         block contenido
         script.
             $(document).ready(function() {
