@@ -1,4 +1,4 @@
-/*const mysql = require('mysql2/promise')
+const mysql = require('mysql2/promise')
 
 const createConnection = async () => {
     const conn = await mysql.createConnection({
@@ -10,8 +10,7 @@ const createConnection = async () => {
     })
     return conn
 }
-
-module.exports = createConnection*/
+/*module.exports = createConnection
 const mysql = require('mysql2/promise');
 
 const createConnection = async () => {
@@ -25,4 +24,4 @@ const createConnection = async () => {
     return conn;
 };
 
-module.exports = createConnection;
+module.exports = createConnection;*/
